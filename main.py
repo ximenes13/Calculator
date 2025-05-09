@@ -3,7 +3,14 @@ import math
 
 # Allow constants and functions from math library
 allowed_values = {k: v for k, v in math.__dict__.items() if not k.startswith("_")}
-allowed_values.update({'pi': math.pi, 'e': math.e, 'sqrt': math.sqrt})
+allowed_values.update({
+    'pi': math.pi,
+    'e': math.e,
+    'sqrt': math.sqrt,
+    'sin': math.sin,
+    'cos': math.cos,
+    'tan': math.tan
+})
 
 
 def evaluate_math(expr):
@@ -12,10 +19,11 @@ def evaluate_math(expr):
     except Exception:
         return "Error"
 
-
 def on_click(value):
-    entry.insert(tk.END, value)
-
+    if value in ['sqrt', 'sin', 'cos', 'tan']:
+        entry.insert(tk.END, value + '(')
+    else:
+        entry.insert(tk.END, value)
 
 def clear():
     entry.delete(0, tk.END)
@@ -38,7 +46,7 @@ root.title("Calculator")
 
 # Create entry
 entry = tk.Entry(root, width=40, font=("Helvetica", 20), borderwidth=3, relief="solid", justify="right")
-entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)  # Fixed columnspan to 4 to match layout
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
 
 # Buttons Layout
 buttons = [
@@ -46,7 +54,8 @@ buttons = [
     ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
     ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
     ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3),
-    ('(', 5, 0), (')', 5, 1), ('pi', 5, 2), ('C', 5, 3)
+    ('(', 5, 0), (')', 5, 1), ('pi', 5, 2), ('C', 5, 3),
+    ('sqrt', 6, 0), ('sin', 6, 1), ('cos', 6, 2), ('tan', 6, 3)
 ]
 
 # Create Buttons
