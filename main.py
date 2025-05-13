@@ -13,8 +13,27 @@ def evaluate_math(expr):
         return "Error"
 
 
+
 def on_click(value):
+    operators = ["+", "-", "*", "/"]
+    current = entry.get()
+
+    # Clear "Error" if it's currently shown
+    if current == "Error":
+        entry.delete(0, tk.END)
+        current = ""
+
+    # Define last_char if there's existing input
+    if current:
+        last_char = current[-1]
+        if last_char in operators and value in operators:
+            # Replace last operator
+            entry.delete(len(current) - 1, tk.END)
+            entry.insert(tk.END, value)
+            return
+
     entry.insert(tk.END, value)
+
 
 
 def clear():
