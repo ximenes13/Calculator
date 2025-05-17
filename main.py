@@ -2,8 +2,18 @@ import tkinter as tk
 import math
 
 # Allow constants and functions from math library
-allowed_values = {k: v for k, v in math.__dict__.items() if not k.startswith("_")}
-allowed_values.update({'pi': math.pi, 'e': math.e, 'sqrt': math.sqrt})
+allowed_values = {
+    k: v for k, v in math.__dict__.items() if not k.startswith("_")
+}
+# Use degrees for trigonometric functions
+allowed_values.update({
+    'pi': math.pi,
+    'e': math.e,
+    'sqrt': math.sqrt,
+    'sin': lambda x: math.sin(math.radians(x)),
+    'cos': lambda x: math.cos(math.radians(x)),
+    'tan': lambda x: math.tan(math.radians(x)),
+})
 
 
 def evaluate_math(expr):
@@ -13,21 +23,17 @@ def evaluate_math(expr):
         return "Error"
 
 
-
 def on_click(value):
     operators = ["+", "-", "*", "/"]
     current = entry.get()
 
-    # Clear "Error" if it's currently shown
     if current == "Error":
         entry.delete(0, tk.END)
         current = ""
 
-    # Define last_char if there's existing input
     if current:
         last_char = current[-1]
         if last_char in operators and value in operators:
-            # Replace last operator
             entry.delete(len(current) - 1, tk.END)
             entry.insert(tk.END, value)
             return
@@ -35,40 +41,37 @@ def on_click(value):
     entry.insert(tk.END, value)
 
 
-
 def clear():
     entry.delete(0, tk.END)
 
 
 def calculate():
-    try:
-        expr = entry.get()
-        result = evaluate_math(expr)
-        entry.delete(0, tk.END)
-        entry.insert(tk.END, str(result))
-    except:
-        entry.delete(0, tk.END)
-        entry.insert(tk.END, "Error")
+    expr = entry.get()
+    result = evaluate_math(expr)
+    entry.delete(0, tk.END)
+    entry.insert(tk.END, str(result))
 
 
 # Create main window
 root = tk.Tk()
 root.title("Calculator")
+root.geometry("510x440")
+root.resizable(False, False)
 
-# Create entry
+# Entry field
 entry = tk.Entry(root, width=40, font=("Helvetica", 20), borderwidth=3, relief="solid", justify="right")
-entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)  # Fixed columnspan to 4 to match layout
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
 
-# Buttons Layout
+# Buttons
 buttons = [
     ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
     ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
     ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
     ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3),
-    ('(', 5, 0), (')', 5, 1), ('pi', 5, 2), ('C', 5, 3)
+    ('(', 5, 0), (')', 5, 1), ('pi', 5, 2), ('C', 5, 3),
+    ('sqrt', 6, 0), ('sin', 6, 1), ('cos', 6, 2), ('tan', 6, 3)
 ]
 
-# Create Buttons
 for (text, row, col) in buttons:
     if text == '=':
         cmd = calculate
@@ -80,5 +83,4 @@ for (text, row, col) in buttons:
     btn = tk.Button(root, text=text, width=5, height=2, font=('Arial', 14), command=cmd)
     btn.grid(row=row, column=col, padx=5, pady=5)
 
-# Run the app
 root.mainloop()
