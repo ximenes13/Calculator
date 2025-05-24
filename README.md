@@ -63,7 +63,7 @@ Once you've installed the dependencies, you can run the main Python script to ge
 
 ---
 
-# 🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome! If you'd like to improve the project, feel free to:
 
