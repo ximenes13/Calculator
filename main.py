@@ -15,6 +15,28 @@ allowed_values.update({
     'tan': lambda x: math.tan(math.radians(x)),
 })
 
+# Themes
+themes = {
+            "light": {
+                "bg": "#ffffff",
+                "fg": "#000000",
+                "entry_bg": "#ffffff",
+                "entry_fg": "#000000",
+                "button_bg": "#e0e0e0",
+                "button_fg": "#000000"
+            },
+            "dark": {
+                "bg": "#2e2e2e",
+                "fg": "#ffffff",
+                "entry_bg": "#3c3f41",
+                "entry_fg": "#ffffff",
+                "button_bg": "#444444",
+                "button_fg": "#ffffff"
+            }
+        }
+
+current_theme = "light"
+buttons_list = []
 
 def evaluate_math(expr):
     try:
@@ -24,22 +46,32 @@ def evaluate_math(expr):
 
 
 def on_click(value):
-    operators = ["+", "-", "*", "/"]
+    operators = ["+", "-", "*", "/", ".", "(", ")"]
+    functions = ["pi", "sqrt", "sin", "cos", "tan"]
     current = entry.get()
 
     if current == "Error":
         entry.delete(0, tk.END)
         current = ""
 
+    # Prevent duplicate consecutive functions
     if current:
-        last_char = current[-1]
-        if last_char in operators and value in operators:
+        last_token = current.split()[-1]  # Split expression (for more complex logic)
+        if current[-1].isalpha() and value in functions:
+            return  # Don't allow stacking functions like "sinsqrt"
+
+        if current[-1] in operators and value in operators:
+            # Replace last operator with the new one
             entry.delete(len(current) - 1, tk.END)
             entry.insert(tk.END, value)
             return
 
-    entry.insert(tk.END, value)
+    # Prevent two functions in a row (by checking the last word)
+    for func in functions:
+        if current.endswith(func) and value in functions:
+            return  # Skip inserting another function
 
+    entry.insert(tk.END, value)
 
 def clear():
     entry.delete(0, tk.END)
@@ -51,6 +83,23 @@ def calculate():
     entry.delete(0, tk.END)
     entry.insert(tk.END, str(result))
 
+def apply_theme(theme_name):
+    global current_theme
+    current_theme = theme_name
+    theme = themes[theme_name]
+    root.configure(bg=theme["bg"])
+    entry.configure(bg=theme["entry_bg"], # background color
+                    fg=theme["entry_fg"], # text color
+                    insertbackground=theme["entry_fg"]) # cursor color
+    for btn in buttons_list:
+        btn.configured(
+        bg = theme["button_bg"],
+        fg = theme["button_fg"],
+        activebackground=theme["button_bg"], # color when pressed
+        activeforeground=theme["button_fg"] # color when pressed
+        )
+    dark_btn.configure(bg=theme["button_bg"], fg="#ffffff")
+    light_btn.configure(bg=theme["button_bg"], fg="#ffffff")
 
 # Create main window
 root = tk.Tk()
@@ -82,5 +131,14 @@ for (text, row, col) in buttons:
 
     btn = tk.Button(root, text=text, width=5, height=2, font=('Arial', 14), command=cmd)
     btn.grid(row=row, column=col, padx=5, pady=5)
+
+# Theme switch buttons
+dark_btn = tk.Button(root, text="🌙", command=lambda: apply_theme("dark"))
+dark_btn.grid(row=7, column=0, columnspan=2, sticky="we", padx=10, pady=10)
+
+light_btn = tk.Button(root, text="☀️", command=lambda: apply_theme("light"))
+light_btn.grid(row=7, column=2, columnspan=2, sticky="we", padx=10, pady=10)
+
+apply_theme("light")  # Apply initial theme
 
 root.mainloop()
