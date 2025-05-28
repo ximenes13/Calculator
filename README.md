@@ -10,6 +10,7 @@ This project is a desktop calculator built using Python and Tkinter, designed to
 🧷 Built-in support for π (pi) using Python's math module <br>
 🔁 Clear (C) button to reset the display instantly <br>
 🎯 Equals (=) button to evaluate full expressions <br>
+🌙☀️ Toggle between Dark Theme and Light Theme modes <br>
 🪟 Clean and intuitive interface using Tkinter widgets <br>
 🛠️ Designed for extensibility — easily add new functions or features <br>
 🔬 Scientific functions support:
@@ -17,6 +18,17 @@ This project is a desktop calculator built using Python and Tkinter, designed to
   - tan(x): Calculates the tangent of the angle x (in radians)
   - cos(x): Calculates the cosine of the angle x (in radians)
   - sen(x): Calculates the sine of the angle x (in radians)
+
+---
+
+## 🎨 Theme Support
+
+This calculator includes built-in **Dark Theme** and **Light Theme** modes to improve visibility and comfort for different lighting environments.
+
+- 🌙 **Dark Theme**: A dark gray background with high-contrast white text and buttons, suitable for low-light settings.
+- ☀️ **Light Theme**: A classic white background with dark text, ideal for daylight or brightly lit environments.
+
+You can switch between themes at any time using the **"🌙 Dark Theme"** and **"☀️ Bright Theme"** buttons at the bottom of the calculator interface. Button hover effects also adapt based on the selected theme.
 
 ---
 
@@ -37,6 +49,7 @@ This project is a desktop calculator built using Python and Tkinter, designed to
   - ➕ Supports operations: +, -, *, /, (), pi, and decimal points <br>
   - 🔁 Implements functional buttons: =, C (clear), and numeric input <br>
   - 🧰 Uses the math module for constants like pi and functions like sqrt, tan, cos, and sen <br>
+  - 🎨 Provides light/dark theme switching with dynamic styling and hover effects <br>
   - ❌ Handles invalid input gracefully by displaying Error
 
 ---
