@@ -37,6 +37,7 @@ themes = {
 
 current_theme = "light"
 buttons_list = []
+last_was_result = False
 
 def evaluate_math(expr):
     try:
@@ -46,6 +47,7 @@ def evaluate_math(expr):
 
 
 def on_click(value):
+    global last_was_result
     operators = ["+", "-", "*", "/", ".", "(", ")"]
     functions = ["pi", "sqrt", "sin", "cos", "tan"]
     current = entry.get()
@@ -54,34 +56,38 @@ def on_click(value):
         entry.delete(0, tk.END)
         current = ""
 
+    # If the last action was a result and user clicks a number → start new entry
+    if last_was_result and value not in operators and value not in functions:
+        entry.delete(0, tk.END)
+        last_was_result = False
+
     # Prevent duplicate consecutive functions
     if current:
-        last_token = current.split()[-1]  # Split expression (for more complex logic)
         if current[-1].isalpha() and value in functions:
-            return  # Don't allow stacking functions like "sinsqrt"
+            return
 
         if current[-1] in operators and value in operators:
-            # Replace last operator with the new one
             entry.delete(len(current) - 1, tk.END)
             entry.insert(tk.END, value)
             return
 
-    # Prevent two functions in a row (by checking the last word)
     for func in functions:
         if current.endswith(func) and value in functions:
-            return  # Skip inserting another function
+            return
 
     entry.insert(tk.END, value)
+    last_was_result = False
 
 def clear():
     entry.delete(0, tk.END)
 
-
 def calculate():
+    global last_was_result
     expr = entry.get()
     result = evaluate_math(expr)
     entry.delete(0, tk.END)
     entry.insert(tk.END, str(result))
+    last_was_result = True  # Mark that we’re showing a result
 
 def apply_theme(theme_name):
     global current_theme
