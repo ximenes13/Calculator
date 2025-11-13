@@ -13,11 +13,11 @@ This project is a desktop calculator built using Python and Tkinter, designed to
 🌙☀️ Toggle between Dark Theme and Light Theme modes <br>
 🪟 Clean and intuitive interface using Tkinter widgets <br>
 🛠️ Designed for extensibility — easily add new functions or features <br>
-🔬 Scientific functions support:
+🔬 Scientific functions support (input in degrees):
   - sqrt(x): Calculates the square root of x
-  - tan(x): Calculates the tangent of the angle x (in radians)
-  - cos(x): Calculates the cosine of the angle x (in radians)
-  - sen(x): Calculates the sine of the angle x (in radians)
+  - sin(x): Calculates the sine of angle x (degrees)
+  - cos(x): Calculates the cosine of angle x (degrees)
+  - tan(x): Calculates the tangent of angle x (degrees)
 
 ---
 
@@ -28,7 +28,7 @@ This calculator includes built-in **Dark Theme** and **Light Theme** modes to im
 - 🌙 **Dark Theme**: A dark gray background with high-contrast white text and buttons, suitable for low-light settings.
 - ☀️ **Light Theme**: A classic white background with dark text, ideal for daylight or brightly lit environments.
 
-You can switch between themes at any time using the **"🌙 Dark Theme"** and **"☀️ Bright Theme"** buttons at the bottom of the calculator interface. Button hover effects also adapt based on the selected theme.
+You can switch between themes at any time using the **"🌙 Dark Theme"** and **"☀️ Light Theme"** buttons at the bottom of the calculator interface.
 
 ---
 
